@@ -11,7 +11,6 @@ import colorama
 from typing import Dict, List, Tuple, Union
 from utils import cvt_to_readable
 
-DAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
 DELIM = ","
 TICK = "▇"
 SM_TICK = "▏"
@@ -28,6 +27,7 @@ class Colors(object):
     Blue = 94
     Magenta = 95
     Cyan = 96
+    White = 97
 
 
 class Data(object):

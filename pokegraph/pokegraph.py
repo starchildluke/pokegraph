@@ -15,7 +15,7 @@ from colorama import init  # type: ignore
 import os
 import re
 
-VERSION = "0.1.0"
+VERSION = "0.1.1"
 
 init()
 
@@ -35,12 +35,6 @@ UNITS = ["", "K", "M", "B", "T"]
 DELIM = ","
 TICK = "▇"
 SM_TICK = "▏"
-
-try:
-    range = xrange  # type: ignore
-except NameError:
-    pass
-
 
 def init_args() -> Dict:
     """Parse and return the arguments."""
