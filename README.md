@@ -39,7 +39,7 @@ Most results can be copied and pasted wherever you like, since they use standard
 pokegraph data/pikachu.csv --color yellow
 ```
 
-<img src="https://github.com/starchildluke/pokegraph/blob/main/pikachu-yellow-base-stats.jpg" alt="Bar chart in yellow" />
+<img src="https://github.com/starchildluke/pokegraph/raw/main/pikachu-yellow-base-stats.jpg" alt="Bar chart in yellow" />
 
 ### Install
 
