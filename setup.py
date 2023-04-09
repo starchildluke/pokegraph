@@ -19,7 +19,7 @@ setup(
     name='pokegraph',
     packages=['pokegraph'],
     entry_points={'console_scripts': ['pokegraph=pokegraph.pokegraph:main']},
-    version='0.1.0',
+    version='0.1.1',
     author="starchildluke",
     author_email="luke@lukealexdavis.co.uk",
     url='https://github.com/starchildluke/pokegraph',

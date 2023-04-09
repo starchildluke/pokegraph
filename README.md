@@ -43,7 +43,7 @@ pokegraph data/pikachu.csv --color yellow
 
 ### Install
 
-Requires Python 3.7+, install from [PyPI project](https://pypi.org/project/termgraph/)
+Requires Python 3.7+, install from [PyPI project](https://pypi.org/project/pokegraph/)
 
 ```
 python3 -m pip install pokegraph
