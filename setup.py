@@ -16,18 +16,18 @@ with open(path.join(here, 'README.md'), encoding='utf-8') as f:
     long_description = f.read()
 
 setup(
-    name='termgraph',
-    packages=['termgraph'],
-    entry_points={'console_scripts': ['termgraph=termgraph.termgraph:main']},
-    version='0.5.3',
-    author="mkaz",
-    author_email="marcus@mkaz.com",
-    url='https://github.com/mkaz/termgraph',
-    download_url='https://pypi.python.org/pypi/termgraph/',
+    name='pokegraph',
+    packages=['pokegraph'],
+    entry_points={'console_scripts': ['pokegraph=pokegraph.pokegraph:main']},
+    version='0.1.0',
+    author="starchildluke",
+    author_email="luke@lukealexdavis.co.uk",
+    url='https://github.com/starchildluke/pokegraph',
+    download_url='https://pypi.python.org/pypi/pokegraph/',
     license='MIT',
-    description='A command-line tool that draws basic graphs in the terminal.',
+    description='A command-line tool that draws Pokémon base stats graphs in the terminal.',
     platforms='any',
-    keywords='python CLI tool drawing graphs shell terminal',
+    keywords='python CLI tool drawing graphs shell terminal pokemon',
     python_requires='>=3.7',
     install_requires=['colorama'],
     classifiers=[

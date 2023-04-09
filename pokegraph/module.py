@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 # coding=utf-8
-"""This module allows drawing basic graphs in the terminal."""
+"""This module creates Pokémon base stats graphs in the terminal."""
 
-# termgraph.py - draw basic graphs on terminal
-# https://github.com/mkaz/termgraph
+# pokegraph.py - create Pokémon base stats graphs on terminal
+# https://github.com/starchildluke/pokegraph
 
 from __future__ import print_function
 import sys, math, os
@@ -16,16 +16,7 @@ DELIM = ","
 TICK = "▇"
 SM_TICK = "▏"
 
-# Commented it out cause I don't know what its purpose is.
-# And the code was running just fine without it.
-# I am sorry if I am being stupid here.
-# try:
-#     range = xrange
-# except NameError:
-#     pass
-
 colorama.init()
-
 
 class Colors(object):
     """Class representing available color values for graphs."""

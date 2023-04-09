@@ -1,37 +1,36 @@
 #!/usr/bin/env python3
 # coding=utf-8
-"""This module allows drawing basic graphs in the terminal."""
+"""This module creates Pokémon base stats graphs in the terminal."""
 
-# termgraph.py - draw basic graphs on terminal
-# https://github.com/mkaz/termgraph
+# pokegraph.py - create Pokémon base stats graphs on terminal
+# https://github.com/starchildluke/pokegraph
 
 from __future__ import print_function, annotations
 from typing import List, Tuple, Dict
 import argparse
 import sys
 import math
-from datetime import datetime, timedelta
 from itertools import zip_longest
 from colorama import init  # type: ignore
 import os
 import re
 
-VERSION = "0.5.3"
+VERSION = "0.1.0"
 
 init()
 
 # ANSI escape SGR Parameters color codes
 AVAILABLE_COLORS = {
-    "red": 91,
-    "blue": 94,
-    "green": 92,
-    "magenta": 95,
-    "yellow": 93,
     "black": 90,
+    "red": 91,
+    "green": 92,
+    "yellow": 93,
+    "blue": 94,
+    "magenta": 95,
     "cyan": 96,
+    "white": 97
 }
 
-DAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
 UNITS = ["", "K", "M", "B", "T"]
 DELIM = ","
 TICK = "▇"
@@ -45,7 +44,7 @@ except NameError:
 
 def init_args() -> Dict:
     """Parse and return the arguments."""
-    parser = argparse.ArgumentParser(description="draw basic graphs on terminal")
+    parser = argparse.ArgumentParser(description="create Pokémon base stats graphs on terminal")
     parser.add_argument(
         "filename",
         nargs="?",
@@ -81,10 +80,6 @@ def init_args() -> Dict:
         action="store_true",
         help="Categories have different scales.",
     )
-    parser.add_argument(
-        "--calendar", action="store_true", help="Calendar Heatmap chart"
-    )
-    parser.add_argument("--start-dt", help="Start date for Calendar chart")
     parser.add_argument(
         "--custom-tick", default="", help="Custom tick mark, emoji approved"
     )
@@ -127,17 +122,10 @@ def main():
     args = init_args()
 
     if args["version"]:
-        print("termgraph v{}".format(VERSION))
+        print("pokegraph v{}".format(VERSION))
         sys.exit()
 
     _, labels, data, colors = read_data(args)
-    try:
-        if args["calendar"]:
-            calendar_heatmap(data, labels, args)
-        else:
-            chart(colors, data, args, labels)
-    except BrokenPipeError:
-        pass
 
 
 def find_min(data: List):
@@ -715,84 +703,6 @@ def read_data(args: Dict) -> Tuple[List, List, List, List]:
         print_categories(categories, colors)
 
     return categories, labels, data, colors
-
-
-def calendar_heatmap(data: Dict, labels: List, args: Dict) -> None:
-    """Print a calendar heatmap."""
-    if args["color"]:
-        colornum = AVAILABLE_COLORS.get(args["color"][0])
-    else:
-        colornum = AVAILABLE_COLORS.get("blue")
-
-    dt_dict = {}
-    for i in range(len(labels)):
-        dt_dict[labels[i]] = data[i][0]
-
-    # get max value
-    max_val = float(max(data)[0])
-
-    tick_1 = "░"
-    tick_2 = "▒"
-    tick_3 = "▓"
-    tick_4 = "█"
-
-    if args["custom_tick"]:
-        tick_1 = tick_2 = tick_3 = tick_4 = args["custom_tick"]
-
-    # check if start day set, otherwise use one year ago
-    if args["start_dt"]:
-        start_dt = datetime.strptime(args["start_dt"], "%Y-%m-%d")
-    else:
-        start = datetime.now()
-        start_dt = datetime(year=start.year - 1, month=start.month, day=start.day)
-
-    # modify start date to be a Monday, subtract weekday() from day
-    start_dt = start_dt - timedelta(start_dt.weekday())
-
-    # TODO: legend doesn't line up properly for all start dates/data
-    # top legend for months
-    sys.stdout.write("     ")
-    for month in range(13):
-        month_dt = datetime(
-            year=start_dt.year, month=start_dt.month, day=1
-        ) + timedelta(days=month * 31)
-        sys.stdout.write(month_dt.strftime("%b") + " ")
-        if args["custom_tick"]:  # assume custom tick is emoji which is one wider
-            sys.stdout.write(" ")
-
-    sys.stdout.write("\n")
-
-    for day in range(7):
-        sys.stdout.write(DAYS[day] + ": ")
-        for week in range(53):
-            day_ = start_dt + timedelta(days=day + week * 7)
-            day_str = day_.strftime("%Y-%m-%d")
-
-            if day_str in dt_dict:
-                if dt_dict[day_str] > max_val * 0.75:
-                    tick = tick_4
-                elif dt_dict[day_str] > max_val * 0.50:
-                    tick = tick_3
-                elif dt_dict[day_str] > max_val * 0.25:
-                    tick = tick_2
-                # show nothing if value is zero
-                elif dt_dict[day_str] == 0.0:
-                    tick = " "
-                # show values for less than 0.25
-                else:
-                    tick = tick_1
-            else:
-                tick = " "
-
-            if colornum:
-                sys.stdout.write("\033[{colornum}m".format(colornum=colornum))
-
-            sys.stdout.write(tick)
-            if colornum:
-                sys.stdout.write("\033[0m")
-
-        sys.stdout.write("\n")
-
 
 if __name__ == "__main__":
     main()

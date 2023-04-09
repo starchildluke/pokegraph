@@ -6,7 +6,7 @@ venv/
 htmlcov/
 dist/
 build/
-termgraph.egg-info/
+pokegraph.egg-info/
 .coverage
 htmlcov/
 .python-version

@@ -1,33 +1,32 @@
 from unittest.mock import patch
 from io import StringIO
-from termgraph import termgraph as tg
+from pokegraph import pokegraph as pg
 import pytest
 
-
 def test_init_args():
-    tg.init_args()
+    pg.init_args()
 
 
 def test_find_min_returns_lowest_value():
-    minimum = tg.find_min(
+    minimum = pg.find_min(
         [[183.32], [231.23], [16.43], [50.21], [508.97], [212.05], [1.0]]
     )
     assert minimum == 1.0
 
 
 def test_find_max_returns_highest_value():
-    maximum = tg.find_max(
+    maximum = pg.find_max(
         [[183.32], [231.23], [16.43], [50.21], [508.97], [212.05], [1.0]]
     )
     assert maximum == 508.97
 
 
 def test_find_max_label_length_returns_correct_length():
-    length = tg.find_max_label_length(
+    length = pg.find_max_label_length(
         ["2007", "2008", "2009", "2010", "2011", "2012", "2014"]
     )
     assert length == 4
-    length = tg.find_max_label_length(["aaaaaaaa", "bbb", "cccccccccccccc", "z"])
+    length = pg.find_max_label_length(["aaaaaaaa", "bbb", "cccccccccccccc", "z"])
     assert length == 14
 
 
@@ -41,7 +40,7 @@ def test_normalize_returns_correct_results():
         [20.83128671630941],
         [0.09823761714835845],
     ]
-    results = tg.normalize(
+    results = pg.normalize(
         [[183.32], [231.23], [16.43], [50.21], [508.97], [212.05], [1.0]], 50
     )
     assert results == expected
@@ -57,7 +56,7 @@ def test_normalize_with_all_zeros_returns_correct_results():
         [0],
         [0],
     ]
-    results = tg.normalize([[0], [0], [0], [0], [0], [0], [0]], 50)
+    results = pg.normalize([[0], [0], [0], [0], [0], [0], [0]], 50)
     assert results == expected
 
 
@@ -71,7 +70,7 @@ def test_normalize_with_negative_datapoint_returns_correct_results():
         [21.393336801741913],
         [0.0],
     ]
-    results = tg.normalize(
+    results = pg.normalize(
         [[183.32], [231.23], [16.43], [50.21], [508.97], [212.05], [-10.0]], 50
     )
     assert results == expected
@@ -88,7 +87,7 @@ def test_normalize_with_larger_width_does_not_normalize():
         [8332.514686523764],
         [39.29504685934338],
     ]
-    results = tg.normalize(data, 20000)
+    results = pg.normalize(data, 20000)
     assert results == expected
 
 
@@ -105,7 +104,7 @@ def test_horiz_rows_yields_correct_values():
         [0.0],
     ]
     args = {
-        "filename": "data/ex1.dat",
+        "filename": "data/bulbasaur.csv",
         "title": None,
         "width": 50,
         "format": "{:<5.2f}",
@@ -115,7 +114,6 @@ def test_horiz_rows_yields_correct_values():
         "vertical": False,
         "stacked": False,
         "different_scale": False,
-        "calendar": False,
         "start_dt": None,
         "custom_tick": "",
         "delim": "",
@@ -126,7 +124,7 @@ def test_horiz_rows_yields_correct_values():
     colors = []
 
     rows = []
-    for row in tg.horiz_rows(labels, data, normal_dat, args, colors):
+    for row in pg.horiz_rows(labels, data, normal_dat, args, colors):
         rows.append(row)
 
     assert rows == [
@@ -142,7 +140,7 @@ def test_horiz_rows_yields_correct_values():
 
 def test_vertically_returns_correct_result():
     args = {
-        "filename": "data/ex2.dat",
+        "filename": "data/charmander.csv",
         "title": None,
         "width": 50,
         "format": "{:<5.2f}",
@@ -152,7 +150,6 @@ def test_vertically_returns_correct_result():
         "vertical": True,
         "stacked": False,
         "different_scale": False,
-        "calendar": False,
         "start_dt": None,
         "custom_tick": "",
         "delim": "",
@@ -163,7 +160,7 @@ def test_vertically_returns_correct_result():
     num_blocks = 2
     val_min = 2.0
     color = None
-    result = tg.vertically(value, num_blocks, val_min, color, args)
+    result = pg.vertically(value, num_blocks, val_min, color, args)
     assert result == [("▇",), ("▇",)]
 
 
@@ -171,7 +168,7 @@ def test_check_data_returns_correct_result():
     labels = ["2007", "2008", "2009", "2010", "2011", "2012", "2014"]
     data = [[183.32], [231.23], [16.43], [50.21], [508.97], [212.05], [1.0]]
     args = {
-        "filename": "data/ex1.dat",
+        "filename": "data/ex1.csv",
         "title": None,
         "width": 50,
         "format": "{:<5.2f}",
@@ -181,14 +178,13 @@ def test_check_data_returns_correct_result():
         "vertical": False,
         "stacked": False,
         "different_scale": False,
-        "calendar": False,
         "start_dt": None,
         "custom_tick": "",
         "delim": "",
         "verbose": False,
         "version": False,
     }
-    result = tg.check_data(labels, data, args)
+    result = pg.check_data(labels, data, args)
     assert result == []
 
 
@@ -196,7 +192,7 @@ def test_check_data_with_color_returns_correct_result():
     labels = ["2007", "2008", "2009", "2010", "2011", "2012", "2014"]
     data = [[183.32], [231.23], [16.43], [50.21], [508.97], [212.05], [1.0]]
     args = {
-        "filename": "data/ex1.dat",
+        "filename": "data/squirtle.csv",
         "title": None,
         "width": 50,
         "format": "{:<5.2f}",
@@ -206,14 +202,13 @@ def test_check_data_with_color_returns_correct_result():
         "vertical": False,
         "stacked": False,
         "different_scale": False,
-        "calendar": False,
         "start_dt": None,
         "custom_tick": "",
         "delim": "",
         "verbose": False,
         "version": False,
     }
-    result = tg.check_data(labels, data, args)
+    result = pg.check_data(labels, data, args)
     assert result == [91]
 
 
@@ -229,7 +224,7 @@ def test_check_data_stacked_with_no_color_returns_correct_result():
         [30.0, 20.0],
     ]
     args = {
-        "filename": "data/ex4.dat",
+        "filename": "data/pikachu.csv",
         "title": None,
         "width": 50,
         "format": "{:<5.2f}",
@@ -239,14 +234,13 @@ def test_check_data_stacked_with_no_color_returns_correct_result():
         "vertical": False,
         "stacked": True,
         "different_scale": False,
-        "calendar": False,
         "start_dt": None,
         "custom_tick": "",
         "delim": "",
         "verbose": False,
         "version": False,
     }
-    result = tg.check_data(labels, data, args)
+    result = pg.check_data(labels, data, args)
     assert result == [91, 94]
 
 
@@ -262,7 +256,7 @@ def test_check_data_vertical_multiple_series_same_scale_exits_with_one():
         [30.0, 20.0],
     ]
     args = {
-        "filename": "data/ex4.dat",
+        "filename": "data/chikorita.csv",
         "title": None,
         "width": 50,
         "format": "{:<5.2f}",
@@ -272,7 +266,6 @@ def test_check_data_vertical_multiple_series_same_scale_exits_with_one():
         "vertical": True,
         "stacked": False,
         "different_scale": False,
-        "calendar": False,
         "start_dt": None,
         "custom_tick": "",
         "delim": "",
@@ -280,7 +273,7 @@ def test_check_data_vertical_multiple_series_same_scale_exits_with_one():
         "version": False,
     }
     with pytest.raises(SystemExit) as e:
-        tg.check_data(labels, data, args)
+        pg.check_data(labels, data, args)
         assert e.exception.code == 1
 
 
@@ -288,7 +281,7 @@ def test_check_data_mismatching_color_and_category_count():
     labels = ["2007", "2008", "2009", "2010", "2011", "2012", "2014"]
     data = [[183.32], [231.23], [16.43], [50.21], [508.97], [212.05], [1.0]]
     args = {
-        "filename": "data/ex1.dat",
+        "filename": "data/cyndaquil.csv",
         "title": None,
         "width": 50,
         "format": "{:<5.2f}",
@@ -298,21 +291,20 @@ def test_check_data_mismatching_color_and_category_count():
         "vertical": False,
         "stacked": False,
         "different_scale": False,
-        "calendar": False,
         "start_dt": None,
         "custom_tick": "",
         "delim": "",
         "verbose": False,
         "version": False,
     }
-    assert tg.check_data(labels, data, args)
+    assert pg.check_data(labels, data, args)
 
 
 def test_check_data_mismatching_data_and_labels_count_exits_with_one():
     labels = ["2007", "2008", "2009", "2010", "2011", "2012", "2014"]
     data = [[183.32], [231.23], [16.43], [50.21], [508.97], [212.05]]
     args = {
-        "filename": "data/ex1.dat",
+        "filename": "data/totodile.csv",
         "title": None,
         "width": 50,
         "format": "{:<5.2f}",
@@ -322,7 +314,6 @@ def test_check_data_mismatching_data_and_labels_count_exits_with_one():
         "vertical": False,
         "stacked": False,
         "different_scale": False,
-        "calendar": False,
         "start_dt": None,
         "custom_tick": "",
         "delim": "",
@@ -330,7 +321,7 @@ def test_check_data_mismatching_data_and_labels_count_exits_with_one():
         "version": False,
     }
     with pytest.raises(SystemExit) as e:
-        tg.check_data(labels, data, args)
+        pg.check_data(labels, data, args)
         assert e.exception.code == 1
 
 
@@ -346,7 +337,7 @@ def test_check_data_missing_data_for_categories_count_exits_with_one():
         [30.0, 20.0],
     ]
     args = {
-        "filename": "data/ex4.dat",
+        "filename": "data/treecko.csv",
         "title": None,
         "width": 50,
         "format": "{:<5.2f}",
@@ -356,7 +347,6 @@ def test_check_data_missing_data_for_categories_count_exits_with_one():
         "vertical": False,
         "stacked": False,
         "different_scale": False,
-        "calendar": False,
         "start_dt": None,
         "custom_tick": "",
         "delim": "",
@@ -364,13 +354,13 @@ def test_check_data_missing_data_for_categories_count_exits_with_one():
         "version": False,
     }
     with pytest.raises(SystemExit) as e:
-        tg.check_data(labels, data, args)
+        pg.check_data(labels, data, args)
         assert e.exception.code == 1
 
 
 def test_read_data_returns_correct_results():
     args = {
-        "filename": "data/ex4.dat",
+        "filename": "data/torchic.csv",
         "title": None,
         "width": 50,
         "format": "{:<5.2f}",
@@ -380,14 +370,13 @@ def test_read_data_returns_correct_results():
         "vertical": False,
         "stacked": False,
         "different_scale": False,
-        "calendar": False,
         "start_dt": None,
         "custom_tick": "",
         "delim": "",
         "verbose": False,
         "version": False,
     }
-    categories, labels, data, colors = tg.read_data(args)
+    categories, labels, data, colors = pg.read_data(args)
     assert categories == ["Boys", "Girls"]
     assert labels == ["2007", "2008", "2009", "2010", "2011", "2012", "2014"]
     assert data == [
@@ -405,7 +394,7 @@ def test_read_data_returns_correct_results():
 def test_read_data_with_title_prints_title():
     with patch("sys.stdout", new=StringIO()) as output:
         args = {
-            "filename": "data/ex4.dat",
+            "filename": "data/mudkip.csv",
             "title": "spaghetti",
             "width": 50,
             "format": "{:<5.2f}",
@@ -415,14 +404,13 @@ def test_read_data_with_title_prints_title():
             "vertical": False,
             "stacked": False,
             "different_scale": False,
-            "calendar": False,
             "start_dt": None,
             "custom_tick": "",
             "delim": "",
             "verbose": False,
             "version": False,
         }
-        tg.read_data(args)
+        pg.read_data(args)
         output = output.getvalue().strip()
         assert output == "# spaghetti\n\n▇ Boys  ▇ Girls"
 
@@ -430,7 +418,7 @@ def test_read_data_with_title_prints_title():
 def test_read_data_verbose():
     with patch("sys.stdout", new=StringIO()) as output:
         args = {
-            "filename": "data/ex1.dat",
+            "filename": "data/arceus.csv",
             "title": None,
             "width": 50,
             "format": "{:<5.2f}",
@@ -440,13 +428,12 @@ def test_read_data_verbose():
             "vertical": False,
             "stacked": False,
             "different_scale": False,
-            "calendar": False,
             "start_dt": None,
             "custom_tick": "",
             "delim": "",
             "verbose": True,
             "version": False,
         }
-        tg.read_data(args)
+        pg.read_data(args)
         output = output.getvalue().strip()
-        assert output == ">> Reading data from data/ex1.dat"
+        assert output == ">> Reading data from data/arceus.csv"

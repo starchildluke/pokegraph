@@ -1,10 +1,15 @@
-# Termgraph
+# Pokegraph
 
-A command-line tool that draws basic graphs in the terminal, written in Python.
+A command-line tool that draws basic Pokémon base stat graphs in the terminal, written in Python.
 
 Graph types supported:
 
+**Primary use**
+
 - Bar Graphs
+
+**Available from termgraph**
+
 - Color charts
 - Multi-variable
 - Stacked charts
@@ -16,80 +21,32 @@ Graph types supported:
 ### Examples
 
 ```
-termgraph data/ex1.dat
+pokegraph data/pikachu.csv
 
-# Reading data from data/ex1.dat
+# Reading data from data/pikachu.csv
 
-2007: ▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇ 183.32
-2008: ▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇ 231.23
-2009: ▇ 16.43
-2010: ▇▇▇▇ 50.21
-2011: ▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇ 508.97
-2012: ▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇ 212.05
-2014: ▏ 1.00
-```
-
-An example using emoji as custom tick:
-
-```
-termgraph data/ex1.dat --custom-tick "🏃" --width 20 --title "Running Data"
-
-# Running Data
-
-2007: 🏃🏃🏃🏃🏃🏃🏃 183.32
-2008: 🏃🏃🏃🏃🏃🏃🏃🏃🏃 231.23
-2009:  16.43
-2010: 🏃 50.21
-2011: 🏃🏃🏃🏃🏃🏃🏃🏃🏃🏃🏃🏃🏃🏃🏃🏃🏃🏃🏃🏃 508.97
-2012: 🏃🏃🏃🏃🏃🏃🏃🏃 212.05
-2014:  1.00
-
-```
-
-
-An example using stdin and emoji:
-
-```
-echo "Label,3,9,1" | termgraph --custom-tick "😀" --no-label
-
-
-😀😀😀 3.00
-😀😀😀😀😀😀😀😀😀 9.00
-😀 1.00
-
+hp             : ▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇ 35.00
+attack         : ▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇ 55.00
+defense        : ▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇ 40.00
+special-attack : ▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇ 50.00
+special-defense: ▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇ 50.00
+speed          : ▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇▇ 90.00
 ```
 
 Most results can be copied and pasted wherever you like, since they use standard block characters. However the color charts will not show, since they use terminal escape codes for color. A couple images to show color examples:
 
 ```
-termgraph data/ex4.dat --color {blue,red}
+pokegraph data/pikachu.csv --color yellow
 ```
 
-<img src="https://user-images.githubusercontent.com/45363/43405623-1a2cc4d4-93cf-11e8-8c96-b7134d8986a2.png" width="655" alt="Multi variable bar chart with colors" />
-
-```
-termgraph data/ex7.dat --color {yellow,magenta} --stacked --title "Stacked Data"
-```
-
-<img src="https://user-images.githubusercontent.com/45363/43405624-1a4a821c-93cf-11e8-84f3-f45c65b7ca98.png" width="686" alt="Multi variable stacked bar chart with colors" />
-
-
-Calendar Heatmap, expects first column to be date in yyyy-mm-dd
-
-```
-termgraph --calendar --start-dt 2017-07-01 data/cal.dat
-```
-
-<img src="https://user-images.githubusercontent.com/45363/43405619-1a15998a-93cf-11e8-8a3f-abfd2f6104a5.png" width="596" alt="Calendar Heatmap" />
-
-
+<img src="https://github.com/starchildluke/pokegraph/blob/main/pikachu-yellow-base-stats.jpg" alt="Bar chart in yellow" />
 
 ### Install
 
 Requires Python 3.7+, install from [PyPI project](https://pypi.org/project/termgraph/)
 
 ```
-python3 -m pip install termgraph
+python3 -m pip install pokegraph
 ```
 
 Note: Be sure your PATH includes the pypi install directory, for me it is `~/.local/bin/`
@@ -99,12 +56,12 @@ Note: Be sure your PATH includes the pypi install directory, for me it is `~/.lo
 * Create data file with two columns either comma or space separated.
   The first column is your labels, the second column is a numeric data
 
-* termgraph [datafile]
+* pokegraph [datafile]
 
-* Help: termgraph -h
+* Help: pokegraph -h
 
 ```
-usage: termgraph.py [-h] [(optional arguments)] [filename]
+usage: pokegraph.py [-h] [(optional arguments)] [filename]
 
 draw basic graphs on terminal
 
@@ -136,23 +93,18 @@ optional arguments:
   --version             Display version and exit
 ```
 
-
 ### Background
 
-I wanted a quick way to visualize data stored in a simple text file. I initially created some scripts in R that generated graphs but this was a two step process of creating the graph and then opening the generated graph.
-
-After seeing [command-line sparklines](https://github.com/holman/spark) I figured I could do the same thing using block characters for bar charts.
+I wanted a quick way to visualize Pokémon base stats instead of having to search in Google and going to Bulbapedia or checking an app. Since I'm always in Terminal anyway, I thought this was work well for my workflow. I then found termgraph which did exactly what I wanted and decided to customise it for my use case, so shout out to [mkaz](https://github.com/mkaz/termgraph/) for creating this awesome tool!
 
 ### Contribute
 
-All contributions are welcome, for feature requests or bug reports, use [Github Issues](https://github.com/mkaz/termgraph/issues). Pull requests are welcome to help fix or add features.
+All contributions are welcome, for feature requests or bug reports, use [Github Issues](https://github.com/starchildluke/pokegraph/issues). Pull requests are welcome to help fix or add features.
 
 **Code contributions**: This repository uses the [black code formatter](https://github.com/psf/black) to automatically format the code. A Github Action is setup to lint your code, to avoid failures it is recommended to [setup your editor to auto format on save](https://github.com/psf/black/blob/master/docs/editor_integration.md).
 
-Thanks to all the [contributors](https://github.com/mkaz/termgraph/graphs/contributors)!
-
+Thanks again to [mkaz](https://github.com/mkaz/)!
 
 ### License
 
 MIT License, see [LICENSE.txt](LICENSE.txt)
-
